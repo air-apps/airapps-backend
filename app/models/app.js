@@ -11,20 +11,32 @@ const AppSchema = Schema({
     latitude: {type: Number},
     longitude: {type: Number},
     _id: false
-  }
+  },
+  totalCheckins: {type: Number, default: 0},
+  checkins: [{
+    time: {type: Date, default: Date.now},
+    amount: {type: Number, default: 0}
+  }]
 });
 AppSchema.index({name: 1}, {unique: true});
-
 
 const AppModel = Mongoose.model('App', AppSchema);
 
 exports.createOrUpdateAppByName = async (name, data) => {
-	// const template = JSON.stringify(data.template);
-	// data.template = template;
 	return AppModel.findOneAndUpdate({name}, data, {upsert: true, new: true});
 }
 
-exports.getAppByName = name => {
+const logCheckIn = async name => {
+  const {totalCheckins} = await AppModel.findOne({name});
+  const log = {
+    time: Date.now(),
+    amount: totalCheckins + 1
+  };
+  return AppModel.findOneAndUpdate({name}, {$inc: {totalCheckins: 1}, $push: {checkins: log}});
+};
+
+exports.getAppByName = async name => {
+  await logCheckIn(name);
 	return AppModel.findOne({name});
 }
 
