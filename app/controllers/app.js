@@ -12,7 +12,11 @@ exports.createOrUpdateApp = {
 			// If pageId is provided, will try to poll Facebook to pull data
 			imageUrl: Joi.string().description('Avatar image for the app'),
 			pageId: Joi.string().description('Facebook Page Id'),
-			template: Joi.object().required().description('JSX template for the app').allow(true)
+      template: Joi.object().required().description('JSX template for the app').allow(true),
+      coordinates: {
+        longitude: Joi.number().min(-180).max(180).required(),
+        latitude: Joi.number().min(-90).max(90).required()
+      }
 		}
 	},
 	handler: async (req, res) => {
@@ -52,4 +56,23 @@ exports.getAllApps = {
 			return res(Boom.badRequest(err));
 		}
 	}
+}
+
+exports.getNearbyApps = {
+  validate: {
+    query: {
+      longitude: Joi.number().min(-180).max(180).required(),
+      latitude: Joi.number().min(-90).max(90).required(),
+      radius: Joi.number().default(1)
+    }
+  },
+  handler: async (req, res) => {
+    const {longitude, latitude, radius} = req.query;
+    try {
+      const data = App.getNearbyApps(latitude, longitude, radius);
+      return res(data);
+    } catch (err) {
+      return res(Boom.badRequest(err));
+    }
+  }
 }

@@ -6,7 +6,12 @@ const AppSchema = Schema({
 	name: {type: String, required: true},
 	imageUrl: {type: String},
 	pageId: {type: String},
-	template: {type: Schema.Types.Mixed}
+  template: {type: Schema.Types.Mixed},
+  coordinates: {
+    latitude: {type: Number},
+    longitude: {type: Number},
+    _id: false
+  }
 });
 AppSchema.index({name: 1}, {unique: true});
 
@@ -26,5 +31,25 @@ exports.getAppByName = name => {
 exports.getAllApps = name => {
 	return AppModel.find();
 }
+
+exports.getNearbyApps = (latitude, longitude, radius) => {
+  const lat = parseFloat(latitude);
+  const long = parseFloat(longitude);
+
+  return AppModel.aggregate([
+    {
+      $match: {
+        coordinates: {
+          $geoWithin: {
+            $centerSphere: [
+              [long, lat],
+              radius/6378.137
+            ]
+          }
+        }
+      }
+    }
+  ]);
+};
 
 exports.AppModel = AppModel;

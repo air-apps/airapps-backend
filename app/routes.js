@@ -14,5 +14,10 @@ module.exports = [
 		method: 'GET',
 		path: '/apps',
 		config: App.getAllApps
+	},
+	{
+		method: 'GET',
+    path: '/apps/nearby',
+		config: App.getNearbyApps
 	}
 ];
