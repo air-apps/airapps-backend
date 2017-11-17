@@ -10,6 +10,7 @@ exports.createOrUpdateApp = {
 		},
 		payload: {
 			// If pageId is provided, will try to poll Facebook to pull data
+			imageUrl: Joi.string().description('Avatar image for the app'),
 			pageId: Joi.string().description('Facebook Page Id'),
 			template: Joi.object().required().description('JSX template for the app').allow(true)
 		}

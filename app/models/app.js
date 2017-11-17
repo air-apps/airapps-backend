@@ -4,6 +4,7 @@ const {Schema} = Mongoose;
 
 const AppSchema = Schema({
 	name: {type: String, required: true},
+	imageUrl: {type: String},
 	pageId: {type: String},
 	template: {type: Schema.Types.Mixed}
 });
