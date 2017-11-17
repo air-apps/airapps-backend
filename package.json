@@ -1,0 +1,31 @@
+{
+  "name": "airapps-backend",
+  "version": "1.0.0",
+  "description": "HapiJS backend for Air Apps",
+  "main": "index.js",
+  "scripts": {
+    "test": "xo",
+    "start": "node app/index.js",
+    "dev": "nodemon app/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/air-apps/airapps-backend.git"
+  },
+  "author": "Hugo Muller-Downing",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/air-apps/airapps-backend/issues"
+  },
+  "homepage": "https://github.com/air-apps/airapps-backend#readme",
+  "dependencies": {
+    "boom": "^7.1.1",
+    "hapi": "^16.6.2",
+    "joi": "^13.0.2",
+    "mongoose": "^4.13.3"
+  },
+  "devDependencies": {
+    "nodemon": "^1.12.1",
+    "xo": "^0.18.2"
+  }
+}
