@@ -23,7 +23,7 @@ exports.createOrUpdateApp = {
 		const {payload, params: {name}} = req;
 		try {
 			const data = await App.createOrUpdateAppByName(name, payload);
-			return res(data);
+			return res({data});
 		} catch (err) {
 			return res(Boom.badRequest(err));
 		}
@@ -40,7 +40,7 @@ exports.getAppByName = {
 		const {name} = req.params;
 		try {
 			const data = await App.getAppByName(name);
-			return res(data);
+			return res({data});
 		} catch (err) {
 			return res(Boom.badRequest(err));
 		}
@@ -51,7 +51,7 @@ exports.getAllApps = {
 	handler: async (req, res) => {
 		try {
 			const data = await App.getAllApps();
-			return res(data);
+			return res({data});
 		} catch (err) {
 			return res(Boom.badRequest(err));
 		}
@@ -69,8 +69,8 @@ exports.getNearbyApps = {
   handler: async (req, res) => {
     const {longitude, latitude, radius} = req.query;
     try {
-      const data = App.getNearbyApps(latitude, longitude, radius);
-      return res(data);
+      const data = await App.getNearbyApps(latitude, longitude, radius);
+      return res({data});
     } catch (err) {
       return res(Boom.badRequest(err));
     }
